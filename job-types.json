@@ -1,0 +1,88 @@
+{
+  "rule": "All field jobs share one schedule. CEP-5 only when the job is an Alabama OSS install or repair. Out-of-state OSS jobs are schedule-only until a later form pack.",
+  "jobTypes": [
+    {
+      "id": "vault_wholesale",
+      "name": "Burial vault \u2014 funeral home / installer wholesale",
+      "schedule": true,
+      "cep5": false,
+      "notes": "Standing supply, contract pricing. Rigid cemetery times possible."
+    },
+    {
+      "id": "vault_direct",
+      "name": "Burial vault \u2014 family / cemetery direct",
+      "schedule": true,
+      "cep5": false,
+      "notes": "Pre-need or at-need. Coordinate with funeral home. Payer may not be site contact."
+    },
+    {
+      "id": "tank_sale_no_install",
+      "name": "Septic tank manufacture / sale only",
+      "schedule": true,
+      "cep5": false,
+      "notes": "Yard pour and delivery or pickup. Manufacturer # may later feed a CEP-5 if the same company also installs."
+    },
+    {
+      "id": "oss_install_new",
+      "name": "OSS new installation",
+      "schedule": true,
+      "cep5": true,
+      "cep5NewOrRepair": "new",
+      "requiresPermit": "CEP-2 or CEP-3 before install",
+      "mayAlsoNeed": [
+        "CEP-6 if engineered / large-flow"
+      ],
+      "states": [
+        "AL"
+      ]
+    },
+    {
+      "id": "oss_repair",
+      "name": "OSS repair / replacement",
+      "schedule": true,
+      "cep5": true,
+      "cep5NewOrRepair": "repair",
+      "requiresPermit": "CEP-2 repair permit unless CEP-5A waiver applies",
+      "mayAlsoNeed": [
+        "CEP-5A waiver (CEP-5 still required; no LHD inspection / no Approval for Use)"
+      ],
+      "states": [
+        "AL"
+      ]
+    },
+    {
+      "id": "oss_install_or_repair_fl_ga",
+      "name": "OSS install or repair outside Alabama",
+      "schedule": true,
+      "cep5": false,
+      "notes": "Different close-out. Do not show CEP-5. Form pack deferred."
+    },
+    {
+      "id": "pumping",
+      "name": "Septic pumping / pump-out",
+      "schedule": true,
+      "cep5": false,
+      "notes": "Licensed pumper (CEP-1 is a pumper permit, not a per-job form in v1). Return visits."
+    },
+    {
+      "id": "grease_trap",
+      "name": "Commercial grease trap",
+      "schedule": true,
+      "cep5": false
+    },
+    {
+      "id": "car_wash_pit",
+      "name": "Car wash pit",
+      "schedule": true,
+      "cep5": false
+    },
+    {
+      "id": "maintenance_other",
+      "name": "Other septic maintenance / diagnostic",
+      "schedule": true,
+      "cep5": false,
+      "notes": "Becomes oss_repair if they open a repair that needs certification."
+    }
+  ],
+  "product": "Cimitri"
+}

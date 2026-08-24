@@ -1,0 +1,15 @@
+{
+  "name": "Cimitri",
+  "kind": "Standalone SaaS for field contractors who schedule jobs, track crew and fleet on a status board, and close Alabama OSS work with a CEP-5 draft.",
+  "spelling": "Cimitri",
+  "figma": "https://www.figma.com/design/Qz3LBDTIfmW2MfKV0EUCFp/Cimitri?node-id=0-1",
+  "designPartner": {
+    "id": "jones-vault-septic",
+    "file": "clients/jones-vault-septic.json"
+  },
+  "v1": "v1-scope.json",
+  "jobTypes": "job-types.json",
+  "forms": [
+    "forms/cep5-field-map.json"
+  ]
+}

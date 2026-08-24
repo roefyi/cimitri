@@ -1,0 +1,67 @@
+{
+  "id": "jones-vault-septic",
+  "name": "Jones Vault & Septic Tank",
+  "role": "First client. Used to shape Cimitri v1; not the product.",
+  "shop": {
+    "address": "107 Pine St, Abbeville, AL 36310",
+    "phone": "(334) 585-2302",
+    "email": "pljones9196@gmail.com",
+    "hours": "Mon\u2013Sat 7am\u20135pm; Sunday closed"
+  },
+  "serviceArea": [
+    "Southeast Alabama",
+    "North Florida",
+    "Southwest Georgia"
+  ],
+  "publicQuoteSite": {
+    "repo": "roefyi/jones-vault",
+    "intake": {
+      "source": "index.html",
+      "intakeToday": "Phone and a public quote form. Team confirms estimates by phone within one business day. Not a bindable quote.",
+      "quoteServicePick": [
+        "vault",
+        "septic",
+        "both"
+      ],
+      "quoteCustomerRoles": [
+        "homeowner",
+        "funeral home",
+        "builder / contractor",
+        "business / property manager"
+      ],
+      "quoteJobTypeLabels": [
+        "Residential",
+        "Funeral home / cemetery",
+        "New construction",
+        "Commercial property"
+      ],
+      "urgencyLabels": [
+        "As soon as possible",
+        "Within a week",
+        "Just exploring pricing"
+      ],
+      "ownerInvolvedOnJobs": "Reviews mention the owner and crew together; owner may be in the field.",
+      "licensedPumperClaimed": true,
+      "scheduleHint": "Pumping copy mentions scheduled return visits."
+    }
+  },
+  "confirmedInConversation": {
+    "firstCustomerIsJonesOnly": true,
+    "jonesSellsTanksAndInstalls": true,
+    "progressMeansStatusBoardNotGps": true,
+    "usersAreOwnerAndEmployees": true,
+    "separateOfficeVsFieldViewsUndecided": true,
+    "allFieldJobsOnOneSchedule": true
+  },
+  "stillMustConfirmWithClient": [
+    "How they schedule today (whiteboard, texts, calendar, paper tickets).",
+    "Jobs per day, number of crews, number of trucks.",
+    "Who currently fills CEP-5 and who submits it to the LHD.",
+    "Whether permit number exists before the crew leaves, or after.",
+    "Wet signature vs scan vs email to the LHD.",
+    "Whether a public-site quote should become a job automatically.",
+    "Whether burial-vault scheduling is as painful as septic."
+  ],
+  "dispatchStatus": "inferred_not_field_confirmed",
+  "dispatchNote": "Jones has not been interviewed. Items below are conversation decisions plus the public site. Volume, whiteboard vs calendar, and who walks CEP-5 into the LHD remain unverified."
+}

@@ -1,0 +1,71 @@
+{
+  "product": "Cimitri",
+  "version": "v1",
+  "simpleMeans": "One status board, one job record, optional CEP-5 draft on Alabama OSS install/repair only.",
+  "in": {
+    "customersAndSites": true,
+    "jobs": {
+      "fields": [
+        "type",
+        "date",
+        "assignedPeople",
+        "assignedVehicle",
+        "status"
+      ],
+      "types": "See job-types.json. All field jobs on one board."
+    },
+    "statusBoard": [
+      "scheduled",
+      "en_route",
+      "on_site",
+      "complete"
+    ],
+    "cep5Draft": {
+      "when": "Job type oss_install_new or oss_repair and site in Alabama",
+      "prefillFrom": "cep5-field-map.json fields with source office or lhd (copied, not invented)",
+      "fieldCompletes": "cep5-field-map.json fields with source field",
+      "neverAutoSign": true,
+      "neverImplyAdphApproval": true
+    }
+  },
+  "quoteSiteHandoff": {
+    "rule": "A public quote funnel (if a client has one) is not Cimitri. Do not fuse quote leads with job + CEP-5 records without an explicit accepted-quote to job step."
+  },
+  "success": {
+    "office": "Can answer who is on what job, which truck, what status, from the board.",
+    "cep5": "On a finished Alabama OSS install, identity / permit / tank fields are mostly filled from the job; the licensee adds as-built facts, sketch, and signature.",
+    "crew": "Status update in under a minute.",
+    "nonSeptic": "Vault, pump, grease, tank-only jobs never dead-end in CEP-5."
+  },
+  "users": [
+    {
+      "id": "owner_office",
+      "goal": "Schedule, assign, watch the board, close jobs, produce CEP-5 drafts without hunting paper."
+    },
+    {
+      "id": "crew",
+      "goal": "See today\u2019s jobs, tap status, capture as-built CEP-5 facts when the job needs them."
+    },
+    {
+      "id": "aowb_signer",
+      "goal": "Attest and sign CEP-5. May not be the person who dug. Views vs permissions still undecided."
+    },
+    {
+      "id": "customer_of_record",
+      "loginInV1": false,
+      "goal": "Correct names on CEP-5 vs invoice vs site contact\u2014handled by office data, not a portal."
+    }
+  ],
+  "designPartner": "clients/jones-vault-septic.json",
+  "outOfV1": [
+    "live GPS / fleet tracking maps",
+    "timesheets / clock-in",
+    "invoicing / payments",
+    "route optimization",
+    "multi-state form packs (FL/GA)",
+    "customer login",
+    "filing CEP-2 / CEP-3 for the owner",
+    "engineer CEP-6 workflow",
+    "multi-tenant SaaS billing and white-label"
+  ]
+}
