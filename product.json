@@ -3,9 +3,16 @@
   "kind": "Standalone SaaS for field contractors who schedule jobs, track crew and fleet on a status board, and close Alabama OSS work with a CEP-5 draft.",
   "spelling": "Cimitri",
   "figma": "https://www.figma.com/design/Qz3LBDTIfmW2MfKV0EUCFp/Cimitri?node-id=0-1",
-  "designPartner": {
-    "id": "jones-vault-septic",
-    "file": "clients/jones-vault-septic.json"
+  "prd": "docs/PRD.md",
+  "ia": "docs/IA.md",
+  "howItWorks": "docs/how-it-works.md",
+  "app": "web/",
+  "designSystem": {
+    "name": "AlignUI",
+    "url": "https://www.alignui.com/",
+    "stack": ["React", "TypeScript", "Tailwind CSS", "AlignUI components"],
+    "palette": "docs/brand/palette.json",
+    "primary": "#E56515"
   },
   "v1": "v1-scope.json",
   "jobTypes": "job-types.json",

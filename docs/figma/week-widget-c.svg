@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420" fill="none">
+  <!-- Option C week widget, no study title. Clockwork palette. Place on Prod. -->
+  <rect width="720" height="420" rx="20" fill="#F8F8F8"/>
+  <rect x="20" y="20" width="680" height="380" rx="16" fill="#FFFFFF" stroke="#CDCDCB"/>
+
+  <!-- Week strip -->
+  <g font-family="Manrope, Inter, sans-serif">
+    <!-- Sun 23 -->
+    <rect x="36" y="36" width="84" height="88" rx="14" fill="#FFFFFF" stroke="#CDCDCB"/>
+    <text x="78" y="58" text-anchor="middle" fill="#919599" font-size="11" font-weight="700">SUN</text>
+    <text x="78" y="86" text-anchor="middle" fill="#1A1A1A" font-size="20" font-weight="800">23</text>
+    <!-- Mon 24 -->
+    <rect x="128" y="36" width="84" height="88" rx="14" fill="#FFFFFF" stroke="#CDCDCB"/>
+    <text x="170" y="58" text-anchor="middle" fill="#919599" font-size="11" font-weight="700">MON</text>
+    <text x="170" y="86" text-anchor="middle" fill="#1A1A1A" font-size="20" font-weight="800">24</text>
+    <circle cx="158" cy="108" r="3" fill="#E56515"/>
+    <circle cx="170" cy="108" r="3" fill="#FBA45C"/>
+    <!-- Tue 25 selected -->
+    <rect x="220" y="36" width="84" height="88" rx="14" fill="#E56515"/>
+    <text x="262" y="58" text-anchor="middle" fill="#FFF4EB" font-size="11" font-weight="700">TUE</text>
+    <text x="262" y="86" text-anchor="middle" fill="#FFFFFF" font-size="20" font-weight="800">25</text>
+    <circle cx="248" cy="108" r="3" fill="#FFFFFF"/>
+    <circle cx="262" cy="108" r="3" fill="#FBA45C"/>
+    <circle cx="276" cy="108" r="3" fill="#CDCDCB"/>
+    <!-- Wed 26 -->
+    <rect x="312" y="36" width="84" height="88" rx="14" fill="#FFFFFF" stroke="#CDCDCB"/>
+    <text x="354" y="58" text-anchor="middle" fill="#919599" font-size="11" font-weight="700">WED</text>
+    <text x="354" y="86" text-anchor="middle" fill="#1A1A1A" font-size="20" font-weight="800">26</text>
+    <circle cx="342" cy="108" r="3" fill="#919599"/>
+    <circle cx="354" cy="108" r="3" fill="#FBA45C"/>
+    <!-- Thu 27 -->
+    <rect x="404" y="36" width="84" height="88" rx="14" fill="#FFFFFF" stroke="#CDCDCB"/>
+    <text x="446" y="58" text-anchor="middle" fill="#919599" font-size="11" font-weight="700">THU</text>
+    <text x="446" y="86" text-anchor="middle" fill="#1A1A1A" font-size="20" font-weight="800">27</text>
+    <circle cx="446" cy="108" r="3" fill="#E56515"/>
+    <!-- Fri 28 -->
+    <rect x="496" y="36" width="84" height="88" rx="14" fill="#FFFFFF" stroke="#CDCDCB"/>
+    <text x="538" y="58" text-anchor="middle" fill="#919599" font-size="11" font-weight="700">FRI</text>
+    <text x="538" y="86" text-anchor="middle" fill="#1A1A1A" font-size="20" font-weight="800">28</text>
+    <circle cx="526" cy="108" r="3" fill="#CDCDCB"/>
+    <circle cx="538" cy="108" r="3" fill="#E56515"/>
+    <!-- Sat 29 -->
+    <rect x="588" y="36" width="84" height="88" rx="14" fill="#FFFFFF" stroke="#CDCDCB"/>
+    <text x="630" y="58" text-anchor="middle" fill="#919599" font-size="11" font-weight="700">SAT</text>
+    <text x="630" y="86" text-anchor="middle" fill="#1A1A1A" font-size="20" font-weight="800">29</text>
+  </g>
+
+  <!-- Job cards -->
+  <g font-family="Manrope, Inter, sans-serif">
+    <rect x="36" y="140" width="648" height="72" rx="14" fill="#FFFFFF" stroke="#CDCDCB"/>
+    <rect x="48" y="154" width="6" height="44" rx="3" fill="#E56515"/>
+    <text x="68" y="174" fill="#1A1A1A" font-size="15" font-weight="800">New tank  441 Pine</text>
+    <text x="68" y="194" fill="#919599" font-size="13">7:30 · Ray + Marcus · T-14</text>
+    <rect x="548" y="162" width="120" height="28" rx="14" fill="#E56515"/>
+    <text x="608" y="181" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">ON SITE</text>
+
+    <rect x="36" y="220" width="648" height="72" rx="14" fill="#FFFFFF" stroke="#CDCDCB"/>
+    <rect x="48" y="234" width="6" height="44" rx="3" fill="#919599"/>
+    <text x="68" y="254" fill="#1A1A1A" font-size="15" font-weight="800">Vault set  Grace Memorial</text>
+    <text x="68" y="274" fill="#919599" font-size="13">10:00 · Eli · Flat-1</text>
+    <rect x="548" y="242" width="120" height="28" rx="14" fill="#FFF4EB" stroke="#FBA45C"/>
+    <text x="608" y="261" text-anchor="middle" fill="#1A1A1A" font-size="11" font-weight="700">EN ROUTE</text>
+
+    <rect x="36" y="300" width="648" height="72" rx="14" fill="#FFFFFF" stroke="#CDCDCB"/>
+    <rect x="48" y="314" width="6" height="44" rx="3" fill="#CDCDCB"/>
+    <text x="68" y="334" fill="#1A1A1A" font-size="15" font-weight="800">Grease trap  County diner</text>
+    <text x="68" y="354" fill="#919599" font-size="13">15:00 · Dee · Vac-2</text>
+    <rect x="548" y="322" width="120" height="28" rx="14" fill="#FFFFFF" stroke="#CDCDCB"/>
+    <text x="608" y="341" text-anchor="middle" fill="#919599" font-size="11" font-weight="700">SCHEDULED</text>
+  </g>
+</svg>

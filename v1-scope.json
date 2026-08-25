@@ -1,17 +1,27 @@
 {
   "product": "Cimitri",
   "version": "v1",
-  "simpleMeans": "One status board, one job record, optional CEP-5 draft on Alabama OSS install/repair only.",
+  "simpleMeans": "One status board, one job per calendar day, optional CEP-5 draft (print for paper sign) on Alabama OSS install/repair only.",
+  "prd": "docs/PRD.md",
+  "howItWorks": "docs/how-it-works.md",
+  "designSystem": "AlignUI (https://www.alignui.com/) — React + Tailwind. Production UI only from AlignUI; prototypes are not the system. Primary #E56515; see docs/brand/palette.json.",
   "in": {
     "customersAndSites": true,
+    "access": {
+      "login": "One shared shop account",
+      "modes": "Same app; Office vs Crew landings",
+      "crewIdentity": "Session picker: which person. Crew sees only jobs assigned to that person."
+    },
     "jobs": {
       "fields": [
         "type",
         "date",
         "assignedPeople",
-        "assignedVehicle",
+        "assignedVehicles",
         "status"
       ],
+      "oneJobPerCalendarDay": true,
+      "multipleTrucks": true,
       "types": "See job-types.json. All field jobs on one board."
     },
     "statusBoard": [
@@ -23,7 +33,8 @@
     "cep5Draft": {
       "when": "Job type oss_install_new or oss_repair and site in Alabama",
       "prefillFrom": "cep5-field-map.json fields with source office or lhd (copied, not invented)",
-      "fieldCompletes": "cep5-field-map.json fields with source field",
+      "firstFieldSlice": "photos and notes; layout sketch later",
+      "signature": "Wet sign on paper after print or PDF export. No in-app signature.",
       "neverAutoSign": true,
       "neverImplyAdphApproval": true
     }
@@ -33,7 +44,7 @@
   },
   "success": {
     "office": "Can answer who is on what job, which truck, what status, from the board.",
-    "cep5": "On a finished Alabama OSS install, identity / permit / tank fields are mostly filled from the job; the licensee adds as-built facts, sketch, and signature.",
+    "cep5": "On a finished Alabama OSS install, identity / permit / tank fields are mostly filled from the job; crew adds photos and notes; licensee wet-signs a printed PDF.",
     "crew": "Status update in under a minute.",
     "nonSeptic": "Vault, pump, grease, tank-only jobs never dead-end in CEP-5."
   },
@@ -56,7 +67,6 @@
       "goal": "Correct names on CEP-5 vs invoice vs site contact\u2014handled by office data, not a portal."
     }
   ],
-  "designPartner": "clients/jones-vault-septic.json",
   "outOfV1": [
     "live GPS / fleet tracking maps",
     "timesheets / clock-in",
@@ -66,6 +76,15 @@
     "customer login",
     "filing CEP-2 / CEP-3 for the owner",
     "engineer CEP-6 workflow",
-    "multi-tenant SaaS billing and white-label"
-  ]
+    "multi-tenant SaaS billing and white-label",
+    "per-person logins",
+    "in-app CEP-5 signature",
+    "layout sketch in first CEP-5 slice",
+    "one job record spanning multiple calendar days"
+  ],
+  "buildSequence": {
+    "must": "Shop login, people, vehicles, customers/sites, jobs, office board, crew assigned-only today/week, status taps, PWA",
+    "should": "CEP-5 draft prefill, photos/notes, print/PDF for paper sign",
+    "later": "Sketch, typed as-built fields, per-person accounts, digital sign, multi-day job records"
+  }
 }

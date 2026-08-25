@@ -242,7 +242,7 @@
       "label": "License Number or Exempt (owner/primary residence)",
       "page": 1,
       "source": "office",
-      "notes": "License belongs to a person. Exempt path is owner installing on primary residence\u2014not Jones\u2019s usual case."
+      "notes": "License belongs to a person. Exempt path is owner installing on a primary residence, not a typical contractor case."
     },
     {
       "id": "installer_signature",

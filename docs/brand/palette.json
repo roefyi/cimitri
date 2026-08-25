@@ -1,0 +1,34 @@
+{
+  "product": "Cimitri",
+  "sourceName": "Clockwork palette",
+  "referenceImage": "docs/brand/palette.png",
+  "alignUi": {
+    "cliPrimaryPreset": "orange",
+    "overridePrimary": true
+  },
+  "colors": {
+    "primary": {
+      "hex": "#E56515",
+      "use": "Primary actions, selected states, key accents"
+    },
+    "primarySoft": {
+      "hex": "#FBA45C",
+      "use": "Softer accent, chips, hover/secondary highlight"
+    },
+    "background": {
+      "hex": "#F8F8F8",
+      "use": "Page and large surface background"
+    },
+    "border": {
+      "hex": "#CDCDCB",
+      "use": "Borders, dividers, inactive chrome"
+    },
+    "muted": {
+      "hex": "#919599",
+      "use": "Secondary text, muted icons"
+    }
+  },
+  "notInSwatchButRequired": {
+    "text": "Near-black for primary copy (AlignUI text-strong). Do not set body text to #E56515."
+  }
+}
