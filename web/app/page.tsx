@@ -9,8 +9,7 @@ export default function Home() {
       </Badge.Root>
       <h1 className='mt-4 text-title-h4 text-text-strong-950'>Cimitri</h1>
       <p className='mt-2 text-paragraph-md text-text-sub-600'>
-        This is the empty app shell: AlignUI components plus the Clockwork
-        palette. Login, the office board, and crew today are not built yet.
+        Everything you need, nothing you don't.
       </p>
       <div className='mt-8 flex flex-wrap gap-3'>
         <Button.Root variant='primary'>Primary #{'E56515'}</Button.Root>
