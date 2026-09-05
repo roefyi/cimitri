@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter as FontSans } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
@@ -6,7 +6,8 @@ import { ThemeProvider } from 'next-themes';
 import { cn } from '@/utils/cn';
 import { Provider as TooltipProvider } from '@/components/ui/tooltip';
 import { NotificationProvider } from '@/components/ui/notification-provider';
-import Header from '@/components/header';
+import { PwaRegister } from '@/components/pwa-register';
+import { OfflineFlush } from '@/components/offline-flush';
 
 const inter = FontSans({
   subsets: ['latin'],
@@ -21,8 +22,19 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: 'Cimitri',
-  description:
-    'Schedule jobs, see crew status, draft Alabama CEP-5. Scaffold only.',
+  description: 'Scheduling and compliance automation for regulated trades.',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    title: 'Cimitri',
+    statusBarStyle: 'default',
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#E56515',
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -39,13 +51,12 @@ export default function RootLayout({
       <body className='bg-bg-weak-50 text-text-strong-950'>
         <ThemeProvider attribute='class'>
           <TooltipProvider>
-            <div className='flex min-h-screen flex-col'>
-              <Header />
-              <main className='flex flex-1 flex-col'>{children}</main>
-            </div>
+            <div className='flex min-h-screen flex-col'>{children}</div>
           </TooltipProvider>
         </ThemeProvider>
         <NotificationProvider />
+        <PwaRegister />
+        <OfflineFlush />
       </body>
     </html>
   );

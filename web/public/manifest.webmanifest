@@ -1,0 +1,16 @@
+{
+  "name": "Cimitri",
+  "short_name": "Cimitri",
+  "description": "Scheduling and compliance automation for regulated trades.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F8F8F8",
+  "theme_color": "#E56515",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}

@@ -391,3 +391,14 @@
   transform: scale(0.8996);
   transform-origin: center;
 }
+
+@media print {
+  header,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+  }
+}
