@@ -1,9 +1,11 @@
-# Cimitri — proposed information architecture (v1)
+# Cimitri — information architecture (v1)
 
-**Status:** Proposal — adjust this file; PRD stays the contract until you say otherwise  
-**Last updated:** 2026-08-25
+**Status:** Current — matches PRD, `job-types.json`, and `web/db/schema.sql`  
+**Last updated:** 2026-09-05
 
-This is **how the product is organized**, not how a week strip looks. Option C is one widget on the crew landing, not a separate app.
+This is how the product is organized: objects, shells, and screens. Layout of a week strip is not a separate app.
+
+The PRD is the contract. This file is the map.
 
 ---
 
@@ -11,7 +13,7 @@ This is **how the product is organized**, not how a week strip looks. Option C i
 
 ```
 Shop login
-    → Choose Office | Crew
+    → Choose Office | Crew   (once per session)
         → If Crew: pick Person (who am I)
             → Shell
 ```
@@ -19,147 +21,121 @@ Shop login
 | | Office shell | Crew shell |
 |---|---|---|
 | Who | Dispatcher / owner | Person selected this session |
-| Default home | **Board** (company jobs) | **Today** (my jobs only) |
-| Sees | Everyone’s jobs | Jobs assigned to that person |
-| Creates | Customers, sites, people, vehicles, jobs | Nothing in first build except status (+ later photos/notes) |
+| Default home | Company jobs (today / this week) | Today — my jobs only |
+| Sees | Every job for the shop | Jobs assigned to that person |
+| Creates | People, customers, sites, jobs | Nothing except complete / flag / photos / notes on assigned jobs |
+| Cancels | Yes | No |
+| Prints CEP-5 | Yes | No |
 
 Same URL, same PWA. Mode and person live in the **session**, not a second password.
 
 ---
 
-## 2. Objects (what the IA hangs on)
+## 2. Objects
 
 ```
 Shop
-├── People          (names for assignment / who-am-I)
-├── Vehicles
-├── Customers
-│     └── Sites     (911 address; owner ≠ payer allowed)
-└── Jobs            (one calendar date each)
-      ├── assignees (People)
-      ├── vehicles
-      ├── status
-      ├── photos / notes     (later, OSS)
-      └── CEP-5 draft        (later, AL OSS install/repair only)
+├── People              (names for assignment / who-am-I — not logins)
+├── Customers           (payer / billing)
+│     └── Sites         (911, owner/applicant, site contact; is_yard_pickup)
+└── Jobs                (one calendar date each)
+      ├── assignees     (People, ≥1)
+      ├── status        (not_started | complete | canceled)
+      ├── flag          (flagged + note, independent of status)
+      ├── OSS fields    (permit / tank / system_type — AL OSS install/repair only)
+      ├── notes / photos
+      └── CEP-5 draft   (1:1, snapshot — AL OSS install/repair only)
 ```
 
-**Job** is the hub. Everything the field cares about is on a job or one tap from it.
+**Job** is the hub. There are **no vehicles**.
 
-Quotes / marketing sites are **outside** Cimitri. A lead becomes a job only after an explicit accept (not in first-build nav).
+Yard / pickup is a **site** (`is_yard_pickup`), not a job type. Tank sale / yard pour still uses a job type (`tank_sale_no_install`) pointed at that site when needed.
+
+Quotes and marketing funnels are outside Cimitri.
 
 ---
 
-## 3. Screens (first build vs later)
+## 3. Job types
+
+All ten ids are on the schedule. CEP-5 only when `cep5` is true.
+
+| id | CEP-5 |
+|---|---|
+| `vault_wholesale` | No |
+| `vault_direct` | No |
+| `tank_sale_no_install` | No |
+| `oss_install_new` | Yes |
+| `oss_repair` | Yes |
+| `oss_install_or_repair_fl_ga` | No (schedule only) |
+| `pumping` | No |
+| `grease_trap` | No |
+| `car_wash_pit` | No |
+| `maintenance_other` | No |
+
+---
+
+## 4. Job state
+
+Two independent axes. Not a live board.
+
+| Axis | Values | Who |
+|---|---|---|
+| Status | `not_started` (default), `complete`, `canceled` | Crew: not_started ↔ complete. Office: also cancel |
+| Flag | off, or on with a required free-text note | Crew sets; office clears |
+
+A job may be complete and flagged, flagged and not started, or canceled. No `en_route`, `on_site`, or distinct `scheduled` status.
+
+---
+
+## 5. Screens (first build)
 
 ### Always (entry)
 
 | Screen | Purpose |
 |---|---|
 | Login | Shop email + password |
-| Mode | Office or Crew |
+| Mode | Office or Crew (once) |
 | Who am I | Crew only — pick a Person |
 
-### Office shell — first build
+### Office shell
 
-| Screen | In the nav? | Purpose |
+| Screen | Nav | Purpose |
 |---|---|---|
-| **Board** | Primary | Today / this week, all jobs, status, people, trucks |
-| **Job** | From board | One job: type, date, people, trucks, status; edit |
-| **New job** | From board | Create job (needs customer + site) |
-| **Customers** | Secondary | List; open customer |
-| **Customer** | From list | Payer / contacts; list of sites |
-| **Site** | From customer or job | Address; jobs at this site |
-| **People** | Settings-ish | Names for assignment |
-| **Vehicles** | Settings-ish | Trucks |
+| Jobs | Primary | Today / this week, all jobs, assignees, status, flag |
+| Job | From list | One job: type, date, people, status, flag, OSS fields, notes/photos, CEP-5 if any; edit / duplicate / cancel |
+| New job | From jobs, customer, or site | Needs customer + site; ≥1 person |
+| Customers | Secondary | List; open customer |
+| Customer | From list | Payer; list of sites; new job |
+| Site | From customer or job | Address, owner/applicant, site contact; jobs here |
+| People | Settings-ish | Names for assignment |
+| CEP-5 draft | On qualifying job | Snapshot + photos/notes; print / PDF |
 
-Office **Board** can include a week/month chrome; that is layout, not a second product.
+Empty shop: prompt to add people, a customer, then a job.
 
-### Crew shell — first build
+### Crew shell
 
-| Screen | In the nav? | Purpose |
+| Screen | Nav | Purpose |
 |---|---|---|
-| **Today** | Primary (home) | Option C: week strip + list for the selected day. Status taps. |
-| **Job** | From a card | Same job record as office; crew can change **status** only (first build) |
+| Today | Primary | Jobs assigned to the selected person for the visible day |
+| Week peek | On today | Change day within the week; still only my jobs |
+| Job | From list | Type, site/customer, time, other crew; **Mark complete**, **Flag an issue**; photos/notes if CEP-5 type |
+| I'm someone else | In shell | Re-pick person (remembers last) |
 
-No company-wide board. No customer directory. Peek at the week **on Today**, not a separate “Calendar” app.
-
-### Later (same IA, extra surfaces)
-
-| Screen | Lives under |
-|---|---|
-| CEP-5 draft | Job (only AL `oss_install_new` / `oss_repair`) |
-| Photos / notes | Job |
-| Print / PDF | Job → CEP-5 |
-| Sketch | Job → CEP-5 (after photos) |
-
-If a job is vault / pump / grease / FL-GA OSS, **there is no CEP-5 item** on that job.
+Crew must not see the whole company's jobs, use GPS, assign people, cancel, or print CEP-5.
 
 ---
 
-## 4. Navigation (proposed)
+## 6. Compliance path (on the job)
 
-**Office (desktop-first)**
+No Forms inbox.
 
-```
-[ Board ]  [ Customers ]  [ People ]  [ Vehicles ]
-     └── Job ── New job
-Customer └── Site └── Job
-```
-
-Switch Office ↔ Crew from a persistent control (once per session vs always visible is still open).
-
-**Crew (phone-first)**
-
-```
-[ Today ]
-     └── Job (status; later photos)
-```
-
-Optional overflow: “I’m someone else” (change Person), “Office” (if they also dispatch).
+1. Office creates an `oss_install_new` or `oss_repair` job with permit / tank / system type.
+2. A `compliance_form_drafts` row holds a **copy** of payer, owner/applicant, 911, and OSS fields (not invented).
+3. Crew adds photos and notes on that job.
+4. Office prints or exports PDF. Wet sign on paper. Cimitri does not sign or file.
 
 ---
 
-## 5. Job as the only deep link that matters
+## 7. Out of IA for v1
 
-A job screen always shows, in this order:
-
-1. Where / who (site, customer names)  
-2. When (one date, optional time)  
-3. Who’s on it (people) and what trucks  
-4. Status stepper  
-5. **If CEP-5 applies:** draft / photos — else nothing about forms  
-
-One schedule for all `job-types.json` types. Forms are a **facet of the job**, not a top-level “Forms” section in first build.
-
----
-
-## 6. Explicitly not in the IA (v1)
-
-- Customer portal  
-- Map / GPS  
-- Timesheets  
-- Invoices  
-- Quote funnel  
-- A “CEP-5 inbox” separate from jobs  
-- Multi-day single job record  
-
----
-
-## 7. What you might want to change
-
-Mark up here or reply with numbers:
-
-1. **Office home:** Board only, or Board + a customer list equally prominent?  
-2. **People / Vehicles:** own nav items, or buried under a single **Shop setup** screen?  
-3. **Crew:** Today only, or a second tab for “this week list” without the strip?  
-4. **CEP-5 later:** stay on Job, or a filtered “Needs form” list for the office?  
-5. **Mode switch:** always in the header vs choose once after login until logout?
-
----
-
-## 8. Related
-
-- Product contract: `docs/PRD.md`  
-- How it runs: `docs/how-it-works.md`  
-- Types: `job-types.json`  
-- Linear: FRE-12 (IA), FRE-19 (build order)  
+Live status board, vehicles, layout sketch, typed as-built fields, per-person logins, customer portal, invoicing, GPS, plumbing/construction form packs.

@@ -1,124 +1,102 @@
 # How Cimitri actually runs
 
-**Status:** Locked for first build (vendors below are the default; swap only if something blocks)  
-**Last updated:** 2026-08-25
+**Status:** Current — matches the live stack and schema  
+**Last updated:** 2026-09-05
 
-This is the simple picture: a website you can install on a phone, talking to a database that holds the shop’s jobs.
+A website you can install on a phone, talking to Postgres that holds the shop’s jobs.
 
 ---
 
 ## 1. Design system (locked)
 
-All product UI uses **[AlignUI](https://www.alignui.com/)**.
+Canonical spec: **`docs/design-system.md`**. Palette source: `docs/brand/palette.json`.
 
-| Piece | What we use |
-|---|---|
-| Framework | **React** + **TypeScript** |
-| Styles | **Tailwind CSS** (AlignUI tokens / `@alignui/cli`) |
-| Components | AlignUI components copied into the app (`@/ui/...`), not a one-off CSS kit |
-| Icons | Remix Icon (what AlignUI uses) |
-| Figma | AlignUI’s Figma library when designing; Cimitri file stays at `product.json` → `figma` |
-| Color | **Clockwork palette**, primary **`#E56515`**. Tokens: `docs/brand/palette.json`, swatch: `docs/brand/palette.png` |
+All product UI uses **[AlignUI](https://www.alignui.com/)** in `web/components/ui`. Clockwork primary **`#E56515`**. Body copy stays near-black. Do not add a second component library.
 
-Do not invent a second component library. Prototypes in `prototypes/` are studies; production screens rebuild in AlignUI.
-
-Official path: AlignUI Next.js starter lives in **`web/`** (already in this repo). Palette is applied in `web/app/globals.css`. To run: `cd web && npm install && npm run dev`.
-
-| Token | Hex | Use |
-|---|---|---|
-| Primary | `#E56515` | Buttons, selected, key accent |
-| Primary soft | `#FBA45C` | Chips, softer highlight |
-| Background | `#F8F8F8` | Page / large surfaces |
-| Border | `#CDCDCB` | Dividers, inactive chrome |
-| Muted | `#919599` | Secondary text, muted icons |
-
-Body copy stays near-black (AlignUI strong text). Orange is for action and emphasis, not paragraphs.
-
-**Still useful, not blocking:**
-
-1. **Free vs Pro** — Base is 40+ open-source components. Pro adds extra blocks and the **always-updated Figma file**.  
-2. **Figma access** — If you have Pro, invite the AlignUI library into the Cimitri file and apply these hexes to the primary variables.
+Run: `cd web && npm install && npm run dev` → **http://127.0.0.1:3456**
 
 ---
 
-## 2. The moving parts (four boxes)
+## 2. Moving parts
 
 ```
-Phone / laptop  →  Cimitri web app (PWA)  →  API  →  Database
-                         ↑
-                    File storage (photos — second increment)
+Phone / laptop  →  Cimitri web (PWA)  →  Next.js server routes  →  Postgres (Neon)
+                                              ↓
+                                    Object storage (photos) when that slice is wired
 ```
 
-| Box | Job | First-build default |
+| Box | Job | Default |
 |---|---|---|
-| **App** | Screens: login, office board, crew today/week, create customer/site/job | **Next.js** (AlignUI’s native starter) + PWA so it can sit on the home screen |
-| **API** | Save jobs, list “today for this person,” change status | Same Next.js app (server routes). One deploy, not a separate backend yet |
-| **Database** | Customers, sites, people, vehicles, jobs | **Postgres** (hosted, e.g. Neon or similar) |
-| **Files** | Job photos | Not in the first build. Add object storage when CEP-5 photos ship |
+| **App** | Login, office jobs, crew today, customers/sites/jobs | Next.js in `web/` + PWA |
+| **API** | Same deploy: save jobs, list today’s assignments, complete/flag | Next.js Route Handlers / server actions |
+| **Database** | Shop, people, customers, sites, jobs, notes, photos metadata, CEP-5 drafts | **Neon Postgres** project `mute-term-96326603` (name: cimitri). Schema: `web/db/schema.sql`. Local URL in gitignored `web/.env.local` |
+| **Files** | Job photo bytes | Table `job_photos.storage_url` exists; Blob (or equivalent) is wired when the photo slice is built |
 
-Office on a desktop and crew on a truck phone are the **same app**. After login they pick **Office** or **Crew** (and crew picks **who they are**). That choice lives in the browser session, not a second password.
+Office on desktop and crew on a phone are the **same app**. After login they pick **Office** or **Crew** once per session. Crew then picks **who they are**. That lives in the browser session, not a second password.
+
+There are **no vehicle tables**.
 
 ---
 
 ## 3. What has to exist for the first build to function
 
-Without these, it is still a mockup:
+1. A hosted URL the shop can open (and Add to Home Screen).
+2. One shop login (email + password hash in `shops`).
+3. Tables as in `web/db/schema.sql` (already applied on Neon).
+4. Office screens that create people / customers / sites / jobs and show today/week.
+5. Crew screens that filter to the selected person and set complete / flag.
+6. PWA so complete / flag / photo-note can be tapped with no signal and applied when back online (or at the shop the same day). That is the only offline requirement — there is no live status to sync.
+7. For CEP-5 jobs: draft snapshot, photos/notes, office PDF/print.
 
-1. **A hosted URL** the shop can open (and Add to Home Screen).  
-2. **One shop login** (email/username + password stored hashed in the database).  
-3. **Tables** for people, vehicles, customers, sites, jobs (type, date, status, assigned people, assigned trucks).  
-4. **Office screens** that create those records and show the board.  
-5. **Crew screens** that filter jobs to the selected person and PATCH status (`scheduled` → `en_route` → `on_site` → `complete`).  
-6. **A service worker / PWA** so a weak signal is annoying, not a dead app: at minimum they can reopen later and tap status at the shop.
+Empty database except one seeded shop is enough to start; people and jobs are still created in the app.
 
-CEP-5 PDF and photos are **not** required for the board to function.
+**Schema commands** (from `web/`, needs `web/.env.local`):
 
----
-
-## 4. Request flow (one example)
-
-Crew marks a job on site:
-
-1. Phone already has the app (or the site in the browser).  
-2. Session says: shop X, mode Crew, person “Marcus.”  
-3. App asks the API: jobs for today assigned to Marcus.  
-4. Marcus taps **On site**.  
-5. API writes `status = on_site` on that job.  
-6. Next time office refreshes the board, they see it.
-
-No GPS. No second server. The database is the source of truth.
+- Existing database: `npm run db:migrate`
+- Empty database: `npm run db:apply`
 
 ---
 
-## 5. Second increment (CEP-5)
+## 4. Request flow (examples)
 
-Add:
+**Crew marks complete**
 
-- Extra columns / a `cep5_drafts` row on Alabama OSS jobs  
-- Photo uploads → file storage  
-- A **print/PDF** of the filled draft (server generates PDF from the form map + job data)
+1. Phone: tap Mark complete on an assigned job.
+2. App writes `jobs.status = complete` (rejected if `canceled`).
+3. Office list shows complete for that job. Flag, if any, is unchanged.
 
-Still no LHD filing and no digital signature.
+**Crew flags an issue**
+
+1. Phone: tap Flag an issue, enter a note.
+2. App writes `flagged = true` and `flag_note`.
+3. Office reads the note, follows up, clears the flag (`flagged = false`, `flag_note` null).
+
+**Office opens CEP-5**
+
+1. Job type is `oss_install_new` or `oss_repair`.
+2. Draft row copies payer (customer), owner/applicant + 911 (site), permit/tank/system type (job).
+3. Crew photos/notes attach to the job, not a separate inbox.
+4. Office exports PDF. No signature capture, no ADPH submit.
 
 ---
 
-## 6. What we are not standing up yet
+## 5. Data the database actually holds
 
-- Native iOS/Android apps (PWA is the truck client)  
-- Microservices  
-- Per-person passwords  
-- Real-time websockets (refresh / short poll is enough for one shop)  
-- A custom design system besides AlignUI  
-
----
-
-## 7. You vs the computer
-
-| You need to provide | The app provides |
+| Table | Role |
 |---|---|
-| AlignUI color (when asked) and Pro vs Base if you know | Components, tokens, Figma alignment |
-| A domain later (optional at first: `*.vercel.app` is fine) | Hosting of the web app |
-| Shop password to log in | Session + data in Postgres |
-| People, trucks, customers, jobs (typed in) | Board and crew list |
+| `shops` | One company login |
+| `people` | Assignment and who-am-I |
+| `customers` | Payer |
+| `sites` | Place of work; `is_yard_pickup` for shop/yard |
+| `jobs` | Type, date, optional time, status, flag, OSS fields |
+| `job_assignees` | Who sees the job in Crew |
+| `job_notes` / `job_photos` | Field capture |
+| `compliance_form_drafts` | 1:1 snapshot for CEP-5 jobs |
 
-No AlignUI zip from the marketing site is required if we use the starter + CLI.
+Types and statuses: `web/db/types.ts` and `job-types.json`.
+
+---
+
+## 6. Not this stack (v1)
+
+Separate backend service, per-person auth, vehicle tracking, GPS, live board state machine, in-app signature, ADPH filing.

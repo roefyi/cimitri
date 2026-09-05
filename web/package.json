@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start -p 3456",
     "lint": "next lint",
+    "db:apply": "bash -c 'set -a; source .env.local; set +a; psql \"$DATABASE_URL\" -v ON_ERROR_STOP=1 -f db/schema.sql'",
+    "db:migrate": "bash -c 'set -a; source .env.local; set +a; psql \"$DATABASE_URL\" -v ON_ERROR_STOP=1 -f db/migrate.sql'",
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache"
   },
   "dependencies": {

@@ -1,16 +1,16 @@
 {
-  "rule": "All field jobs share one schedule. CEP-5 only when the job is an Alabama OSS install or repair. Out-of-state OSS jobs are schedule-only until a later form pack.",
+  "rule": "All field jobs share one schedule. CEP-5 only when the job is an Alabama OSS install or repair. Out-of-state OSS jobs are schedule-only until a later form pack. Yard / pickup is a site (is_yard_pickup), not a job type.",
   "jobTypes": [
     {
       "id": "vault_wholesale",
-      "name": "Burial vault \u2014 funeral home / installer wholesale",
+      "name": "Burial vault — funeral home / installer wholesale",
       "schedule": true,
       "cep5": false,
       "notes": "Standing supply, contract pricing. Rigid cemetery times possible."
     },
     {
       "id": "vault_direct",
-      "name": "Burial vault \u2014 family / cemetery direct",
+      "name": "Burial vault — family / cemetery direct",
       "schedule": true,
       "cep5": false,
       "notes": "Pre-need or at-need. Coordinate with funeral home. Payer may not be site contact."
@@ -29,12 +29,14 @@
       "cep5": true,
       "cep5NewOrRepair": "new",
       "requiresPermit": "CEP-2 or CEP-3 before install",
-      "mayAlsoNeed": [
-        "CEP-6 if engineered / large-flow"
+      "mayAlsoNeed": ["CEP-6 if engineered / large-flow"],
+      "states": ["AL"],
+      "job_fields": [
+        { "field": "permit_number", "required": true, "source": "entered on job, copied from permit" },
+        { "field": "tank", "required": true, "source": "entered on job" },
+        { "field": "system_type", "required": true, "source": "entered on job" }
       ],
-      "states": [
-        "AL"
-      ]
+      "field_capture": ["photos", "notes"]
     },
     {
       "id": "oss_repair",
@@ -46,9 +48,13 @@
       "mayAlsoNeed": [
         "CEP-5A waiver (CEP-5 still required; no LHD inspection / no Approval for Use)"
       ],
-      "states": [
-        "AL"
-      ]
+      "states": ["AL"],
+      "job_fields": [
+        { "field": "permit_number", "required": true, "source": "entered on job, copied from permit" },
+        { "field": "tank", "required": true, "source": "entered on job" },
+        { "field": "system_type", "required": true, "source": "entered on job" }
+      ],
+      "field_capture": ["photos", "notes"]
     },
     {
       "id": "oss_install_or_repair_fl_ga",
@@ -82,6 +88,24 @@
       "schedule": true,
       "cep5": false,
       "notes": "Becomes oss_repair if they open a repair that needs certification."
+    }
+  ],
+  "form_definitions": [
+    {
+      "form_id": "cep5",
+      "full_name": "Installer's Onsite Sewage Disposal System Certification",
+      "issuing_body": "Alabama Department of Public Health (ADPH), onsite sewage division",
+      "requires_license": "AOWB (Alabama Onsite Wastewater Board)",
+      "submission_method": "Print or PDF export, wet signature on paper. No confirmed electronic filing path. Cimitri does not submit to ADPH.",
+      "prefill_sources": {
+        "identity": "customer record (payer)",
+        "site_owner_applicant": "site record",
+        "site_address": "site record",
+        "permit_tank_system_type": "job record"
+      },
+      "field_capture_v1": ["photos", "notes"],
+      "field_capture_later": ["layout_sketch", "typed_as_built_fields"],
+      "field_map_reference": "forms/cep5-field-map.json (not yet reviewed against this schema)"
     }
   ],
   "product": "Cimitri"

@@ -1,22 +1,38 @@
 {
-  "name": "Cimitri",
-  "kind": "Standalone SaaS for field contractors who schedule jobs, track crew and fleet on a status board, and close Alabama OSS work with a CEP-5 draft.",
-  "spelling": "Cimitri",
-  "figma": "https://www.figma.com/design/Qz3LBDTIfmW2MfKV0EUCFp/Cimitri?node-id=0-1",
-  "prd": "docs/PRD.md",
-  "ia": "docs/IA.md",
-  "howItWorks": "docs/how-it-works.md",
-  "app": "web/",
-  "designSystem": {
-    "name": "AlignUI",
-    "url": "https://www.alignui.com/",
-    "stack": ["React", "TypeScript", "Tailwind CSS", "AlignUI components"],
-    "palette": "docs/brand/palette.json",
-    "primary": "#E56515"
+  "product_name": "Cimitri",
+  "tagline": "Scheduling and compliance automation for regulated trades.",
+  "summary": "Micro-SaaS for small trade crews (1-20 people) who must file state compliance paperwork as part of their work. Captures client, property, and job data once and uses it to auto-populate required compliance forms, removing redundant manual re-entry.",
+  "positioning": {
+    "differentiator": "Compliance form automation is the core wedge, not an add-on feature. Scheduling exists to support compliance (know what job a form belongs to, who was on it) rather than to compete with full dispatch/field-service platforms.",
+    "market_gap": "Existing septic-specific field service tools bundle compliance/permit tracking as one feature among many (scheduling, dispatch, route optimization, invoicing, fleet tracking). General field-service platforms (Jobber, ServiceTitan, FieldPulse) offer broad scheduling/CRM but no trade-specific compliance features. Cimitri's compliance-first, scheduling-as-infrastructure position is currently unclaimed.",
+    "explicit_non_competition": "v1 deliberately avoids full live dispatch boards, GPS routing, and fleet/HR management to avoid competing head-on with incumbents' mature feature sets before the compliance wedge is validated."
   },
-  "v1": "v1-scope.json",
-  "jobTypes": "job-types.json",
-  "forms": [
-    "forms/cep5-field-map.json"
-  ]
+  "target_market": {
+    "company_size": "Small trade crews, roughly 1-20 personnel",
+    "not_targeting": "20-100+ personnel range served by incumbents like ServiceTitan"
+  },
+  "regulatory_context": {
+    "v1_form": "CEP-5",
+    "form_full_name": "Alabama Installer's Onsite Sewage Disposal System Certification",
+    "issuing_body": "Alabama Department of Public Health (ADPH), onsite sewage division",
+    "license_required": "AOWB (Alabama Onsite Wastewater Board) license number",
+    "submission_flow_confirmed": "No reliable ADPH electronic filing portal for CEP-5. Form requires a signature and AOWB license number. Cimitri generates a filled PDF for print/wet-signature; Cimitri does not submit to ADPH or any authority.",
+    "trade_licensing_note": "CEP-5 applies specifically to AOWB-licensed septic installers. Alabama plumbers are licensed separately (Plumbers and Gas Fitters Examining Board); general construction is not required to file CEP-5. Overlap happens at the individual/company level, not the form level."
+  },
+  "staged_roadmap": [
+    {
+      "stage": "v1",
+      "description": "Alabama septic installers. CEP-5 autofill + lightweight scheduling. Validates the core compliance-autofill wedge."
+    },
+    {
+      "stage": "v2",
+      "description": "Add plumbing and construction verticals. Introduce their respective compliance forms as new templates within the same form-template engine. Validates that the architecture generalizes across trades."
+    },
+    {
+      "stage": "v3",
+      "description": "Multi-state expansion, demand-dependent. Extend the same industries into other states once Alabama demand justifies it."
+    }
+  ],
+  "architecture_principle": "Build the data model (customer/site/job core + swappable form templates) to be open-ended from day one, but do not build plumbing/construction/other-state templates until each prior stage is validated.",
+  "pricing_note": "Pricing strategy is intentionally excluded from the PRD and lives in the separate strategy document."
 }
