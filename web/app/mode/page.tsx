@@ -1,5 +1,5 @@
 import { AuthHeader } from '@/components/app-header';
-import * as Button from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { PageCard } from '@/components/dashboard';
 import { setModeAction } from '@/app/actions/auth';
 import { requireSession } from '@/lib/session';
@@ -21,9 +21,9 @@ export default async function ModePage() {
               Company schedule, customers, people, and CEP-5 drafts.
             </p>
             <form action={setModeAction.bind(null, 'office')} className='mt-4'>
-              <Button.Root type='submit' className='w-full'>
+              <Button type='submit' className='w-full'>
                 Continue as office
-              </Button.Root>
+              </Button>
             </form>
           </PageCard>
           <PageCard title='Crew'>
@@ -31,9 +31,9 @@ export default async function ModePage() {
               Only the jobs assigned to the person you pick next.
             </p>
             <form action={setModeAction.bind(null, 'crew')} className='mt-4'>
-              <Button.Root type='submit' variant='neutral' mode='stroke' className='w-full'>
+              <Button type='submit' variant='outline' className='w-full'>
                 Continue as crew
-              </Button.Root>
+              </Button>
             </form>
           </PageCard>
         </div>

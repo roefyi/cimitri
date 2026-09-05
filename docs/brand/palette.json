@@ -2,9 +2,9 @@
   "product": "Cimitri",
   "sourceName": "Clockwork palette",
   "referenceImage": "docs/brand/palette.png",
-  "alignUi": {
-    "cliPrimaryPreset": "orange",
-    "overridePrimary": true
+  "shadcn": {
+    "baseColor": "neutral",
+    "primary": "#E56515"
   },
   "colors": {
     "primary": {
@@ -29,6 +29,6 @@
     }
   },
   "notInSwatchButRequired": {
-    "text": "Near-black for primary copy (AlignUI text-strong). Do not set body text to #E56515."
+    "text": "Near-black for primary copy. Do not set body text to #E56515."
   }
 }

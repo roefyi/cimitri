@@ -1,6 +1,6 @@
 'use client';
 
-import * as Button from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { deletePersonAction } from '@/app/actions/people';
 import { useState, useTransition } from 'react';
 
@@ -9,11 +9,10 @@ export function DeletePersonButton({ personId }: { personId: string }) {
   const [pending, start] = useTransition();
   return (
     <div className='flex flex-col items-end gap-1'>
-      <Button.Root
+      <Button
         type='button'
-        variant='error'
-        mode='stroke'
-        size='xsmall'
+        variant='destructive'
+        size='xs'
         disabled={pending}
         onClick={() =>
           start(async () => {
@@ -23,8 +22,8 @@ export function DeletePersonButton({ personId }: { personId: string }) {
         }
       >
         Remove
-      </Button.Root>
-      {error ? <p className='text-paragraph-xs text-error-base'>{error}</p> : null}
+      </Button>
+      {error ? <p className='text-paragraph-xs text-destructive'>{error}</p> : null}
     </div>
   );
 }

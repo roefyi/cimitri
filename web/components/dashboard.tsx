@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { cn } from '@/utils/cn';
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 export function PageHeader({
   title,
@@ -15,7 +16,7 @@ export function PageHeader({
       <div className='min-w-0'>
         <h1 className='text-title-h5'>{title}</h1>
         {description ? (
-          <p className='mt-1 text-paragraph-sm text-text-sub-600'>{description}</p>
+          <p className='mt-1 text-paragraph-sm text-muted-foreground'>{description}</p>
         ) : null}
       </div>
       {children ? <div className='flex flex-wrap items-center gap-2'>{children}</div> : null}
@@ -37,20 +38,15 @@ export function PageCard({
   children: ReactNode;
 }) {
   return (
-    <section
-      className={cn(
-        'rounded-20 bg-bg-white-0 shadow-regular-xs ring-1 ring-stroke-soft-200',
-        className,
-      )}
-    >
+    <Card className={cn(className)}>
       {title || action ? (
-        <div className='flex items-center justify-between gap-3 border-b border-stroke-soft-200 px-5 py-4'>
-          {title ? <h2 className='text-label-md text-text-strong-950'>{title}</h2> : <span />}
-          {action}
-        </div>
+        <CardHeader className='border-b'>
+          {title ? <CardTitle>{title}</CardTitle> : <span />}
+          {action ? <CardAction>{action}</CardAction> : null}
+        </CardHeader>
       ) : null}
-      <div className={padded ? 'p-5' : ''}>{children}</div>
-    </section>
+      <CardContent className={padded ? '' : 'px-0'}>{children}</CardContent>
+    </Card>
   );
 }
 
@@ -64,12 +60,14 @@ export function StatCard({
   hint?: string;
 }) {
   return (
-    <div className='rounded-20 bg-bg-white-0 p-4 shadow-regular-xs ring-1 ring-stroke-soft-200'>
-      <p className='text-paragraph-xs text-text-sub-600'>{label}</p>
-      <p className='mt-1 text-title-h5 tabular-nums text-text-strong-950'>{value}</p>
-      {hint ? (
-        <p className='mt-1 text-paragraph-xs text-text-soft-400'>{hint}</p>
-      ) : null}
-    </div>
+    <Card>
+      <CardContent>
+        <p className='text-paragraph-xs text-muted-foreground'>{label}</p>
+        <p className='mt-1 text-title-h5 tabular-nums'>{value}</p>
+        {hint ? (
+          <p className='mt-1 text-paragraph-xs text-muted-foreground'>{hint}</p>
+        ) : null}
+      </CardContent>
+    </Card>
   );
 }

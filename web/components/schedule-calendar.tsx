@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { format, parseISO } from 'date-fns';
-import { Calendar } from '@/components/ui/datepicker';
+import { Calendar } from '@/components/ui/calendar';
 
 export function ScheduleCalendar({
   selectedIso,
@@ -36,7 +36,7 @@ export function ScheduleCalendar({
       modifiers={{ hasJobs: marked }}
       modifiersClassNames={{
         hasJobs:
-          'relative after:absolute after:bottom-1 after:left-1/2 after:size-1.5 after:-translate-x-1/2 after:rounded-full after:bg-primary-base',
+          'relative after:absolute after:bottom-1 after:left-1/2 after:size-1.5 after:-translate-x-1/2 after:rounded-full after:bg-primary',
       }}
     />
   );

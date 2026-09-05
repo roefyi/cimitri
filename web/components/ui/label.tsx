@@ -1,72 +1,23 @@
-// AlignUI Label v0.0.0
+"use client"
 
-'use client';
+import * as React from "react"
+import { cn } from "cn"
+import { Label as LabelPrimitive } from "radix-ui"
 
-import * as React from 'react';
-import * as LabelPrimitives from '@radix-ui/react-label';
-import { cn } from '@/utils/cn';
-
-const LabelRoot = React.forwardRef<
-  React.ComponentRef<typeof LabelPrimitives.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitives.Root> & {
-    disabled?: boolean;
-  }
->(({ className, disabled, ...rest }, forwardedRef) => {
+function Label({
+  className,
+  ...props
+}: React.ComponentProps<typeof LabelPrimitive.Root>) {
   return (
-    <LabelPrimitives.Root
-      ref={forwardedRef}
+    <LabelPrimitive.Root
+      data-slot="label"
       className={cn(
-        'group cursor-pointer text-label-sm text-text-strong-950',
-        'flex items-center gap-px',
-        // disabled
-        'aria-disabled:text-text-disabled-300',
-        className,
+        "flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
+        className
       )}
-      aria-disabled={disabled}
-      {...rest}
+      {...props}
     />
-  );
-});
-LabelRoot.displayName = 'LabelRoot';
-
-function LabelAsterisk({
-  className,
-  children,
-  ...rest
-}: React.HTMLAttributes<HTMLSpanElement>) {
-  return (
-    <span
-      className={cn(
-        'text-primary-base',
-        // disabled
-        'group-aria-disabled:text-text-disabled-300',
-        className,
-      )}
-      {...rest}
-    >
-      {children || '*'}
-    </span>
-  );
+  )
 }
 
-function LabelSub({
-  children,
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLSpanElement>) {
-  return (
-    <span
-      className={cn(
-        'text-paragraph-sm text-text-sub-600',
-        // disabled
-        'group-aria-disabled:text-text-disabled-300',
-        className,
-      )}
-      {...rest}
-    >
-      {children}
-    </span>
-  );
-}
-
-export { LabelRoot as Root, LabelAsterisk as Asterisk, LabelSub as Sub };
+export { Label }

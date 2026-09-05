@@ -11,7 +11,7 @@ A website you can install on a phone, talking to Postgres that holds the shop’
 
 Canonical spec: **`docs/design-system.md`**. Palette source: `docs/brand/palette.json`.
 
-All product UI uses **[AlignUI](https://www.alignui.com/)** in `web/components/ui`. Clockwork primary **`#E56515`**. Body copy stays near-black. Do not add a second component library.
+All product UI uses **[shadcn/ui](https://ui.shadcn.com/)** in `web/components/ui`. Clockwork primary **`#E56515`**. Body copy stays near-black. AlignUI is retired. Do not add a second component library.
 
 Run: `cd web && npm install && npm run dev` → **http://127.0.0.1:3456**
 

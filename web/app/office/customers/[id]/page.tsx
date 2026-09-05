@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import * as Button from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { PageCard, PageHeader } from '@/components/dashboard';
 import { EditCustomerForm } from '@/components/customer-form';
 import { getCustomer, listSitesForCustomer } from '@/lib/queries';
@@ -19,12 +19,12 @@ export default async function CustomerPage({
   return (
     <div className='flex flex-col gap-6'>
       <PageHeader title={customer.name} description='Payer record and sites'>
-        <Button.Root asChild mode='stroke'>
+        <Button asChild variant='outline'>
           <Link href={`/office/customers/${customer.id}/sites/new`}>Add site</Link>
-        </Button.Root>
-        <Button.Root asChild>
+        </Button>
+        <Button asChild>
           <Link href={`/office/jobs/new?customerId=${customer.id}`}>New job</Link>
-        </Button.Root>
+        </Button>
       </PageHeader>
 
       <div className='grid items-start gap-6 lg:grid-cols-3'>

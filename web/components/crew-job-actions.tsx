@@ -1,10 +1,17 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import * as Button from '@/components/ui/button';
-import * as Textarea from '@/components/ui/textarea';
-import * as Modal from '@/components/ui/modal';
-import * as Alert from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Field } from '@/components/field';
 import { crewFlagAction, crewSetCompleteAction } from '@/app/actions/jobs';
 import { enqueue, flushQueue } from '@/lib/offline-queue';
@@ -68,82 +75,75 @@ export function CrewJobActions({ job }: { job: JobRow }) {
   return (
     <div className='flex flex-col gap-3'>
       {error ? (
-        <Alert.Root variant='lighter' status='error'>
-          {error}
-        </Alert.Root>
+        <Alert variant='destructive'>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
       ) : null}
       {queued ? (
-        <Alert.Root variant='lighter' status='warning'>
-          Saved on this phone. It will send when you are back online.
-          <Button.Root
-            type='button'
-            mode='stroke'
-            size='xsmall'
-            className='mt-2'
-            onClick={() => {
-              startTransition(() => {
-                void flushQueue();
-              });
-            }}
-          >
-            Retry now
-          </Button.Root>
-        </Alert.Root>
+        <Alert>
+          <AlertDescription>
+            Saved on this phone. It will send when you are back online.
+            <Button
+              type='button'
+              variant='outline'
+              size='xs'
+              className='mt-2'
+              onClick={() => {
+                startTransition(() => {
+                  void flushQueue();
+                });
+              }}
+            >
+              Retry now
+            </Button>
+          </AlertDescription>
+        </Alert>
       ) : null}
-      <Button.Root
+      <Button
         type='button'
         disabled={canceled || pending}
         onClick={() => startTransition(() => void setComplete(!complete))}
       >
         {complete ? 'Return to not started' : 'Mark complete'}
-      </Button.Root>
-      <Button.Root
+      </Button>
+      <Button
         type='button'
-        variant='error'
-        mode='stroke'
+        variant='destructive'
         disabled={canceled || pending}
         onClick={() => setFlagOpen(true)}
       >
         Flag an issue
-      </Button.Root>
+      </Button>
 
-      <Modal.Root open={flagOpen} onOpenChange={setFlagOpen}>
-        <Modal.Content>
-          <Modal.Header>
-            <Modal.Title>Flag an issue</Modal.Title>
-            <Modal.Description>
+      <Dialog open={flagOpen} onOpenChange={setFlagOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Flag an issue</DialogTitle>
+            <DialogDescription>
               Office will see this note. A job can be flagged with or without being complete.
-            </Modal.Description>
-          </Modal.Header>
-          <Modal.Body>
-            <Field label='What happened' required>
-              <Textarea.Root
-                simple
-                value={note}
-                onChange={(event) => setNote(event.target.value)}
-                placeholder='Tank cracked on delivery'
-              />
-            </Field>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button.Root
-              type='button'
-              variant='neutral'
-              mode='stroke'
-              onClick={() => setFlagOpen(false)}
-            >
+            </DialogDescription>
+          </DialogHeader>
+          <Field label='What happened' required>
+            <Textarea
+              value={note}
+              onChange={(event) => setNote(event.target.value)}
+              placeholder='Tank cracked on delivery'
+            />
+          </Field>
+          <DialogFooter>
+            <Button type='button' variant='outline' onClick={() => setFlagOpen(false)}>
               Cancel
-            </Button.Root>
-            <Button.Root
+            </Button>
+            <Button
               type='button'
-              variant='error'
+              variant='destructive'
               onClick={() => startTransition(() => void submitFlag())}
             >
               Save flag
-            </Button.Root>
-          </Modal.Footer>
-        </Modal.Content>
-      </Modal.Root>
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -1,6 +1,13 @@
 import { JobForm } from '@/components/job-form';
 import { PageCard, PageHeader } from '@/components/dashboard';
-import * as Breadcrumb from '@/components/ui/breadcrumb';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 import { listCustomers, listPeople, listSites } from '@/lib/queries';
 import { requireOffice } from '@/lib/session';
 import Link from 'next/link';
@@ -19,12 +26,19 @@ export default async function NewJobPage({
 
   return (
     <div className='flex flex-col gap-6'>
-      <Breadcrumb.Root>
-        <Breadcrumb.Item asChild>
-          <Link href='/office/jobs'>Schedule</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>New job</Breadcrumb.Item>
-      </Breadcrumb.Root>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href='/office/jobs'>Schedule</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>New job</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <PageHeader
         title='New job'
         description='One calendar day. Assign at least one person.'

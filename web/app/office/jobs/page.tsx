@@ -1,6 +1,13 @@
 import Link from 'next/link';
-import * as Button from '@/components/ui/button';
-import * as Table from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { PageCard, PageHeader, StatCard } from '@/components/dashboard';
 import { JobCard } from '@/components/job-card';
 import { JobStateBadges } from '@/components/job-state-badges';
@@ -18,7 +25,7 @@ import {
 } from '@/lib/dates';
 import { listCustomers, listJobsInRange, listPeople } from '@/lib/queries';
 import { requireOffice } from '@/lib/session';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils';
 import type { JobRow } from '@/lib/types';
 
 function jobsForDay(jobs: JobRow[], day: string) {
@@ -59,22 +66,22 @@ export default async function OfficeJobsPage({
             : formatLongDate(date)
         }
       >
-        <Button.Root asChild variant='neutral' mode='stroke'>
+        <Button asChild variant='outline'>
           <Link href={`/office/jobs?range=${range}&date=${addDaysIso(date, -1)}`}>
             Previous
           </Link>
-        </Button.Root>
-        <Button.Root asChild variant='neutral' mode='stroke'>
+        </Button>
+        <Button asChild variant='outline'>
           <Link href={`/office/jobs?range=${range}&date=${todayIso()}`}>Today</Link>
-        </Button.Root>
-        <Button.Root asChild variant='neutral' mode='stroke'>
+        </Button>
+        <Button asChild variant='outline'>
           <Link href={`/office/jobs?range=${range}&date=${addDaysIso(date, 1)}`}>
             Next
           </Link>
-        </Button.Root>
-        <Button.Root asChild>
+        </Button>
+        <Button asChild>
           <Link href='/office/jobs/new'>New job</Link>
-        </Button.Root>
+        </Button>
       </PageHeader>
 
       {people.length === 0 || customers.length === 0 ? (
@@ -82,7 +89,7 @@ export default async function OfficeJobsPage({
           <ol className='list-decimal space-y-2 pl-5 text-paragraph-sm text-text-sub-600'>
             <li>
               {people.length === 0 ? (
-                <Link href='/office/people' className='text-primary-base'>
+                <Link href='/office/people' className='text-primary'>
                   Add people
                 </Link>
               ) : (
@@ -91,7 +98,7 @@ export default async function OfficeJobsPage({
             </li>
             <li>
               {customers.length === 0 ? (
-                <Link href='/office/customers/new' className='text-primary-base'>
+                <Link href='/office/customers/new' className='text-primary'>
                   Add a customer
                 </Link>
               ) : (
@@ -168,7 +175,7 @@ export default async function OfficeJobsPage({
                         href={`/office/jobs?range=week&date=${day}`}
                         className={cn(
                           'text-label-xs',
-                          selected ? 'text-primary-base' : 'text-text-sub-600',
+                          selected ? 'text-primary' : 'text-muted-foreground',
                         )}
                       >
                         {formatDayHeading(day)}
@@ -221,20 +228,20 @@ export default async function OfficeJobsPage({
                   ))}
                 </div>
                 <div className='hidden px-3 pb-3 xl:block'>
-                  <Table.Root>
-                    <Table.Header>
-                      <Table.Row>
-                        <Table.Head>When</Table.Head>
-                        <Table.Head>Type</Table.Head>
-                        <Table.Head>Where</Table.Head>
-                        <Table.Head>Crew</Table.Head>
-                        <Table.Head>State</Table.Head>
-                      </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>When</TableHead>
+                        <TableHead>Type</TableHead>
+                        <TableHead>Where</TableHead>
+                        <TableHead>Crew</TableHead>
+                        <TableHead>State</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
                       {jobs.map((job) => (
-                        <Table.Row key={job.id}>
-                          <Table.Cell>
+                        <TableRow key={job.id}>
+                          <TableCell>
                             <Link
                               href={`/office/jobs/${job.id}`}
                               className='text-label-sm'
@@ -244,24 +251,24 @@ export default async function OfficeJobsPage({
                                 ? formatTime(job.scheduledTime)
                                 : 'All day'}
                             </Link>
-                          </Table.Cell>
-                          <Table.Cell>{jobTypeLabel(job.type)}</Table.Cell>
-                          <Table.Cell>
+                          </TableCell>
+                          <TableCell>{jobTypeLabel(job.type)}</TableCell>
+                          <TableCell>
                             {job.siteIsYard ? 'Yard / pickup' : job.siteAddress}
                             <span className='block text-paragraph-xs text-text-sub-600'>
                               {job.customerName}
                             </span>
-                          </Table.Cell>
-                          <Table.Cell>
+                          </TableCell>
+                          <TableCell>
                             {job.assignees.map((a) => a.name).join(', ')}
-                          </Table.Cell>
-                          <Table.Cell>
+                          </TableCell>
+                          <TableCell>
                             <JobStateBadges job={job} />
-                          </Table.Cell>
-                        </Table.Row>
+                          </TableCell>
+                        </TableRow>
                       ))}
-                    </Table.Body>
-                  </Table.Root>
+                    </TableBody>
+                  </Table>
                 </div>
               </>
             )}

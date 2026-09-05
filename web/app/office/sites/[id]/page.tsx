@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import * as Button from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { PageCard, PageHeader } from '@/components/dashboard';
 import { EditSiteForm } from '@/components/site-form';
 import { JobCard } from '@/components/job-card';
@@ -19,13 +19,13 @@ export default async function SitePage({ params }: { params: { id: string } }) {
         title={site.isYardPickup ? 'Yard / pickup' : site.address911}
         description={`${site.customerName} · Owner/applicant: ${site.ownerApplicantName}`}
       >
-        <Button.Root asChild>
+        <Button asChild>
           <Link
             href={`/office/jobs/new?customerId=${site.customerId}&siteId=${site.id}`}
           >
             New job
           </Link>
-        </Button.Root>
+        </Button>
       </PageHeader>
 
       <div className='grid items-start gap-6 xl:grid-cols-3'>

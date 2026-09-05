@@ -3,21 +3,20 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useFormState, useFormStatus } from 'react-dom';
-import * as Button from '@/components/ui/button';
-import * as Textarea from '@/components/ui/textarea';
-import * as FileUpload from '@/components/ui/file-upload';
-import * as Alert from '@/components/ui/alert';
+import { Upload } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Field } from '@/components/field';
 import { addJobNoteAction } from '@/app/actions/jobs';
-import { RiUploadCloud2Line } from '@remixicon/react';
 import type { JobNote, JobPhoto } from '@/db/types';
 
 function NoteSubmit() {
   const { pending } = useFormStatus();
   return (
-    <Button.Root type='submit' size='small' disabled={pending}>
+    <Button type='submit' size='sm' disabled={pending}>
       {pending ? 'Saving…' : 'Add note'}
-    </Button.Root>
+    </Button>
   );
 }
 
@@ -63,8 +62,8 @@ export function JobCapture({
   return (
     <div className='flex flex-col gap-6'>
       <section className='flex flex-col gap-3'>
-        <h2 className='text-label-md text-text-strong-950'>Photos</h2>
-        <FileUpload.Root>
+        <h2 className='text-label-md'>Photos</h2>
+        <label className='flex cursor-pointer flex-col items-center gap-2 rounded-xl border border-dashed p-6 text-center'>
           <input
             type='file'
             accept='image/*'
@@ -76,16 +75,18 @@ export function JobCapture({
               event.target.value = '';
             }}
           />
-          <FileUpload.Icon as={RiUploadCloud2Line} />
-          <p className='text-paragraph-sm text-text-sub-600'>
+          <Upload className='size-6 text-muted-foreground' />
+          <p className='text-paragraph-sm text-muted-foreground'>
             {uploading ? 'Uploading…' : 'Tap to add photos for the CEP-5 draft'}
           </p>
-          <FileUpload.Button>Choose photos</FileUpload.Button>
-        </FileUpload.Root>
+          <Button type='button' variant='outline' size='sm' asChild>
+            <span>Choose photos</span>
+          </Button>
+        </label>
         {uploadError ? (
-          <Alert.Root variant='lighter' status='error'>
-            {uploadError}
-          </Alert.Root>
+          <Alert variant='destructive'>
+            <AlertDescription>{uploadError}</AlertDescription>
+          </Alert>
         ) : null}
         {photos.length ? (
           <div className='grid grid-cols-3 gap-2'>
@@ -100,28 +101,28 @@ export function JobCapture({
             ))}
           </div>
         ) : (
-          <p className='text-paragraph-sm text-text-sub-600'>No photos yet.</p>
+          <p className='text-paragraph-sm text-muted-foreground'>No photos yet.</p>
         )}
       </section>
 
       <section className='flex flex-col gap-3'>
-        <h2 className='text-label-md text-text-strong-950'>Notes</h2>
+        <h2 className='text-label-md'>Notes</h2>
         {notes.map((note) => (
           <p
             key={note.id}
-            className='rounded-xl bg-bg-white-0 p-3 text-paragraph-sm text-text-strong-950 ring-1 ring-stroke-soft-200'
+            className='rounded-xl bg-card p-3 text-paragraph-sm ring-1 ring-border'
           >
             {note.body}
           </p>
         ))}
         <form action={formAction} className='flex flex-col gap-2'>
           {state?.error ? (
-            <Alert.Root variant='lighter' status='error'>
-              {state.error}
-            </Alert.Root>
+            <Alert variant='destructive'>
+              <AlertDescription>{state.error}</AlertDescription>
+            </Alert>
           ) : null}
           <Field label='Add a note'>
-            <Textarea.Root name='body' simple required placeholder='What the form needs from the field' />
+            <Textarea name='body' required placeholder='What the form needs from the field' />
           </Field>
           <NoteSubmit />
         </form>

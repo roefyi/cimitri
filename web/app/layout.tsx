@@ -3,9 +3,9 @@ import { Inter as FontSans } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
 import { ThemeProvider } from 'next-themes';
-import { cn } from '@/utils/cn';
-import { Provider as TooltipProvider } from '@/components/ui/tooltip';
-import { NotificationProvider } from '@/components/ui/notification-provider';
+import { cn } from '@/lib/utils';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { Toaster } from '@/components/ui/sonner';
 import { PwaRegister } from '@/components/pwa-register';
 import { OfflineFlush } from '@/components/offline-flush';
 
@@ -46,15 +46,15 @@ export default function RootLayout({
     <html
       lang='en'
       suppressHydrationWarning
-      className={cn(inter.variable, geistMono.variable, 'antialiased')}
+      className={cn(inter.variable, geistMono.variable, 'font-sans antialiased')}
     >
-      <body className='bg-bg-weak-50 text-text-strong-950'>
-        <ThemeProvider attribute='class'>
+      <body className='bg-background text-foreground'>
+        <ThemeProvider attribute='class' defaultTheme='light' enableSystem>
           <TooltipProvider>
             <div className='flex min-h-screen flex-col'>{children}</div>
           </TooltipProvider>
+          <Toaster />
         </ThemeProvider>
-        <NotificationProvider />
         <PwaRegister />
         <OfflineFlush />
       </body>

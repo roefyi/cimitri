@@ -1,4 +1,4 @@
-import * as Button from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { PageCard, PageHeader } from '@/components/dashboard';
 import { setPersonAction } from '@/app/actions/auth';
 import { listPeople } from '@/lib/queries';
@@ -33,14 +33,13 @@ export default async function WhoAmIPage() {
                   {lastUsed ? 'Last used on this device.' : 'Jobs assigned to this name.'}
                 </p>
                 <form action={setPersonAction.bind(null, person.id)} className='mt-4'>
-                  <Button.Root
+                  <Button
                     type='submit'
                     className='w-full'
-                    variant={lastUsed ? 'primary' : 'neutral'}
-                    mode={lastUsed ? 'filled' : 'stroke'}
+                    variant={lastUsed ? 'default' : 'outline'}
                   >
                     Continue as {person.name}
-                  </Button.Root>
+                  </Button>
                 </form>
               </PageCard>
             );

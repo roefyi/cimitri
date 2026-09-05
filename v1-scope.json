@@ -3,7 +3,7 @@
   "status": "revised - supersedes prior scope on scheduling and build sequencing",
   "platform": {
     "type": "Responsive web app, installable as PWA",
-    "design_system": "AlignUI (React + Tailwind)",
+    "design_system": "shadcn/ui (React + Tailwind)",
     "primary_color": "#E56515"
   },
   "login": {

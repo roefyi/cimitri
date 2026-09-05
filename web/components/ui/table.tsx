@@ -1,137 +1,115 @@
-// AlignUI Table v0.0.0
+"use client"
 
-import * as React from 'react';
+import * as React from "react"
+import { cn } from "cn"
 
-import * as Divider from '@/components/ui/divider';
-import { cn } from '@/utils/cn';
-
-const Table = React.forwardRef<
-  HTMLTableElement,
-  React.TableHTMLAttributes<HTMLTableElement>
->(({ className, ...rest }, forwardedRef) => {
+function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
-    <div className={cn('w-full overflow-x-auto', className)}>
-      <table ref={forwardedRef} className='w-full' {...rest} />
+    <div
+      data-slot="table-container"
+      className="relative w-full overflow-x-auto"
+    >
+      <table
+        data-slot="table"
+        className={cn("w-full caption-bottom text-sm", className)}
+        {...props}
+      />
     </div>
-  );
-});
-Table.displayName = 'Table';
+  )
+}
 
-const TableHeader = React.forwardRef<
-  HTMLTableSectionElement,
-  React.HTMLAttributes<HTMLTableSectionElement>
->(({ ...rest }, forwardedRef) => {
-  return <thead ref={forwardedRef} {...rest} />;
-});
-TableHeader.displayName = 'TableHeader';
+function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
+  return (
+    <thead
+      data-slot="table-header"
+      className={cn("[&_tr]:border-b", className)}
+      {...props}
+    />
+  )
+}
 
-const TableHead = React.forwardRef<
-  HTMLTableCellElement,
-  React.ThHTMLAttributes<HTMLTableCellElement>
->(({ className, ...rest }, forwardedRef) => {
+function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
+  return (
+    <tbody
+      data-slot="table-body"
+      className={cn("[&_tr:last-child]:border-0", className)}
+      {...props}
+    />
+  )
+}
+
+function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
+  return (
+    <tfoot
+      data-slot="table-footer"
+      className={cn(
+        "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
+  return (
+    <tr
+      data-slot="table-row"
+      className={cn(
+        "border-b transition-colors hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function TableHead({ className, ...props }: React.ComponentProps<"th">) {
   return (
     <th
-      ref={forwardedRef}
+      data-slot="table-head"
       className={cn(
-        'bg-bg-weak-50 px-3 py-2 text-left text-paragraph-sm text-text-sub-600 first:rounded-l-lg last:rounded-r-lg',
-        className,
+        "h-10 px-2 text-left align-middle font-medium whitespace-nowrap text-foreground [&:has([role=checkbox])]:pr-0",
+        className
       )}
-      {...rest}
+      {...props}
     />
-  );
-});
-TableHead.displayName = 'TableHead';
-
-const TableBody = React.forwardRef<
-  HTMLTableSectionElement,
-  React.HTMLAttributes<HTMLTableSectionElement> & {
-    spacing?: number;
-  }
->(({ spacing = 8, ...rest }, forwardedRef) => {
-  return (
-    <>
-      {/* to have space between thead and tbody */}
-      <tbody
-        aria-hidden='true'
-        className='table-row'
-        style={{
-          height: spacing,
-        }}
-      />
-
-      <tbody ref={forwardedRef} {...rest} />
-    </>
-  );
-});
-TableBody.displayName = 'TableBody';
-
-const TableRow = React.forwardRef<
-  HTMLTableRowElement,
-  React.HTMLAttributes<HTMLTableRowElement>
->(({ className, ...rest }, forwardedRef) => {
-  return (
-    <tr ref={forwardedRef} className={cn('group/row', className)} {...rest} />
-  );
-});
-TableRow.displayName = 'TableRow';
-
-function TableRowDivider({
-  className,
-  dividerClassName,
-  ...rest
-}: React.ComponentPropsWithoutRef<typeof Divider.Root> & {
-  dividerClassName?: string;
-}) {
-  return (
-    <tr aria-hidden='true' className={className}>
-      <td colSpan={999} className='py-1'>
-        <Divider.Root
-          variant='line-spacing'
-          className={dividerClassName}
-          {...rest}
-        />
-      </td>
-    </tr>
-  );
+  )
 }
-TableRowDivider.displayName = 'TableRowDivider';
 
-const TableCell = React.forwardRef<
-  HTMLTableCellElement,
-  React.TdHTMLAttributes<HTMLTableCellElement>
->(({ className, ...rest }, forwardedRef) => {
+function TableCell({ className, ...props }: React.ComponentProps<"td">) {
   return (
     <td
-      ref={forwardedRef}
+      data-slot="table-cell"
       className={cn(
-        'h-16 px-3 transition duration-200 ease-out first:rounded-l-xl last:rounded-r-xl group-hover/row:bg-bg-weak-50',
-        className,
+        "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0",
+        className
       )}
-      {...rest}
+      {...props}
     />
-  );
-});
-TableCell.displayName = 'TableCell';
+  )
+}
 
-const TableCaption = React.forwardRef<
-  HTMLTableCaptionElement,
-  React.HTMLAttributes<HTMLTableCaptionElement>
->(({ className, ...rest }, forwardedRef) => (
-  <caption
-    ref={forwardedRef}
-    className={cn('mt-4 text-paragraph-sm text-text-sub-600', className)}
-    {...rest}
-  />
-));
-TableCaption.displayName = 'TableCaption';
+function TableCaption({
+  className,
+  ...props
+}: React.ComponentProps<"caption">) {
+  return (
+    <caption
+      data-slot="table-caption"
+      className={cn("mt-4 text-sm text-muted-foreground", className)}
+      {...props}
+    />
+  )
+}
 
 export {
-  Table as Root,
-  TableHeader as Header,
-  TableBody as Body,
-  TableHead as Head,
-  TableRow as Row,
-  TableRowDivider as RowDivider,
-  TableCell as Cell,
-  TableCaption as Caption,
-};
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+}

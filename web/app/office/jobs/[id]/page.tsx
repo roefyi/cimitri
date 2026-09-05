@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import * as Button from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { PageCard, PageHeader } from '@/components/dashboard';
 import { JobForm } from '@/components/job-form';
 import { JobCapture } from '@/components/job-capture';
@@ -38,27 +38,27 @@ export default async function OfficeJobPage({
         } · ${job.customerName}`}
       >
         {isCep5Type(job.type) ? (
-          <Button.Root asChild>
+          <Button asChild>
             <Link href={`/office/jobs/${job.id}/cep5`}>CEP-5 draft</Link>
-          </Button.Root>
+          </Button>
         ) : null}
         <form action={duplicateJobAction.bind(null, job.id)}>
-          <Button.Root type='submit' variant='neutral' mode='stroke'>
+          <Button type='submit' variant='outline'>
             Duplicate to next day
-          </Button.Root>
+          </Button>
         </form>
         {job.flagged ? (
           <form action={clearFlagAction.bind(null, job.id)}>
-            <Button.Root type='submit' variant='neutral' mode='stroke'>
+            <Button type='submit' variant='outline'>
               Clear flag
-            </Button.Root>
+            </Button>
           </form>
         ) : null}
         {job.status !== 'canceled' ? (
           <form action={cancelJobAction.bind(null, job.id)}>
-            <Button.Root type='submit' variant='error' mode='stroke'>
+            <Button type='submit' variant='destructive'>
               Cancel job
-            </Button.Root>
+            </Button>
           </form>
         ) : null}
       </PageHeader>
@@ -67,13 +67,13 @@ export default async function OfficeJobPage({
         <JobStateBadges job={job} />
         <Link
           href={`/office/customers/${job.customerId}`}
-          className='text-label-sm text-primary-base'
+          className='text-label-sm text-primary'
         >
           {job.customerName}
         </Link>
         <Link
           href={`/office/sites/${job.siteId}`}
-          className='text-label-sm text-primary-base'
+          className='text-label-sm text-primary'
         >
           {job.siteIsYard ? 'Yard / pickup' : job.siteAddress}
         </Link>

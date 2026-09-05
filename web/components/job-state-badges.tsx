@@ -1,38 +1,23 @@
-import * as StatusBadge from '@/components/ui/status-badge';
-import * as Badge from '@/components/ui/badge';
+import { Badge } from '@/components/ui/badge';
 import { isCep5Type } from '@/lib/job-catalog';
 import type { JobRow } from '@/lib/types';
 
-export function JobStateBadges({ job }: { job: Pick<JobRow, 'status' | 'flagged' | 'type'> }) {
+export function JobStateBadges({
+  job,
+}: {
+  job: Pick<JobRow, 'status' | 'flagged' | 'type'>;
+}) {
   return (
     <div className='flex flex-wrap items-center gap-1.5'>
       {job.status === 'complete' ? (
-        <StatusBadge.Root variant='light' status='completed'>
-          <StatusBadge.Dot />
-          Complete
-        </StatusBadge.Root>
+        <Badge variant='secondary'>Complete</Badge>
       ) : job.status === 'canceled' ? (
-        <StatusBadge.Root variant='light' status='disabled'>
-          <StatusBadge.Dot />
-          Canceled
-        </StatusBadge.Root>
+        <Badge variant='outline'>Canceled</Badge>
       ) : (
-        <StatusBadge.Root variant='light' status='pending'>
-          <StatusBadge.Dot />
-          Not started
-        </StatusBadge.Root>
+        <Badge variant='outline'>Not started</Badge>
       )}
-      {job.flagged ? (
-        <StatusBadge.Root variant='light' status='failed'>
-          <StatusBadge.Dot />
-          Flagged
-        </StatusBadge.Root>
-      ) : null}
-      {isCep5Type(job.type) ? (
-        <Badge.Root variant='lighter' color='orange'>
-          CEP-5
-        </Badge.Root>
-      ) : null}
+      {job.flagged ? <Badge variant='destructive'>Flagged</Badge> : null}
+      {isCep5Type(job.type) ? <Badge>CEP-5</Badge> : null}
     </div>
   );
 }

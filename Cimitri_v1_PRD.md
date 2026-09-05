@@ -74,7 +74,7 @@ Office and crew may be the same human on a given day. Same app; different defaul
 ## 6. Platform and access
 
 - Responsive web (desktop office + phone crew). Installable as a PWA.
-- UI: AlignUI (React, Tailwind). Primary #E56515. See `docs/design-system.md` and `docs/brand/palette.json`.
+- UI: shadcn/ui (React, Tailwind). Primary #E56515. See `docs/design-system.md` and `docs/brand/palette.json`.
 - Crew actions (complete / flag / attach photo-note) must not require a live connection at the moment of action — the action applies once the device is back online, or the user can act at the shop the same day. This is the only offline-tolerance requirement in v1; there is no live status to keep in sync.
 
 **Login:** one shared shop account for v1. The shop password does not identify who tapped complete/flag or attached a photo. Per-person accounts can wait.
@@ -219,7 +219,7 @@ Quote sites and marketing funnels are out of product. If a lead becomes a job, t
 | Job types (v1) | Original ten ids in `job-types.json`. All schedule. CEP-5 only on `oss_install_new` / `oss_repair`. Plumbing/construction verticals are v2 |
 | Mode switch | Office vs Crew chosen once per session after login |
 | Platform | Responsive web + PWA |
-| Design system | AlignUI (React + Tailwind). Primary #E56515 |
+| Design system | shadcn/ui (React + Tailwind). Primary #E56515 |
 | Pricing | Not part of this PRD — lives in strategy doc |
 
 ---
@@ -268,7 +268,7 @@ Locked (were listed as open; now defaults): Office vs Crew once per session; off
 
 ## 14. How it runs
 
-Next.js app + AlignUI, one API in the same deploy, Postgres, PWA. See `docs/how-it-works.md`.
+Next.js app + shadcn/ui, one API in the same deploy, Postgres, PWA. See `docs/how-it-works.md`.
 
 ---
 

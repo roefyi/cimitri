@@ -1,5 +1,4 @@
-import * as Label from '@/components/ui/label';
-import * as Hint from '@/components/ui/hint';
+import { Label } from '@/components/ui/label';
 
 export function Field({
   label,
@@ -16,15 +15,15 @@ export function Field({
 }) {
   return (
     <div className='flex flex-col gap-1'>
-      <Label.Root>
+      <Label>
         {label}
-        {required ? <Label.Asterisk /> : null}
-      </Label.Root>
+        {required ? <span className='text-destructive'> *</span> : null}
+      </Label>
       {children}
       {error ? (
-        <Hint.Root hasError>{error}</Hint.Root>
+        <p className='text-paragraph-xs text-destructive'>{error}</p>
       ) : hint ? (
-        <Hint.Root>{hint}</Hint.Root>
+        <p className='text-paragraph-xs text-muted-foreground'>{hint}</p>
       ) : null}
     </div>
   );
